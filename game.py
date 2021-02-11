@@ -1,3 +1,4 @@
+import os
 import pygame
 from settings import *
 from Sprites import *
@@ -10,7 +11,7 @@ class Game:
         # Initialize game window
         pygame.mixer.pre_init(44100, -16, 2, 2048) # Prevents delay in jumping sound
         pygame.init()
-        pygame.mixer.init()
+        pygame.mixer.init(frequency=44100)
         self.monitor_size = [pygame.display.Info().current_w,pygame.display.Info().current_h]
         environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (self.monitor_size[0] / 2 - SCREEN_WIDTH/2, self.monitor_size[1] / 2 - SCREEN_HEIGHT/2)
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -56,7 +57,7 @@ class Game:
         self.all_Sprites.add(self.player)
 
         for plat in platform_list:
-            p = Platform(self,*plat, self.platforms, self.all_Sprites) # * explodes the list
+            p = Platform(self, plat[0], plat[0], self.platforms, self.all_Sprites) # * explodes the list
             self.last_spawn = p
 
         pygame.mixer.music.load(path.join(self.sound_dir, "theme.ogg"))
@@ -411,8 +412,12 @@ class Game:
     def load_data(self):
         self.dir = path.dirname(path.abspath("game.py")) # Gets the directory name of the game.py file
         img_dir = path.join(self.dir, "Sprites")
+        if os.path.exists(path.join(self.dir,HS_FILE)):
+            mode = 'r+'
+        else:
+            mode = 'a+'
         try:
-            with open(path.join(self.dir,HS_FILE), 'r+' ) as file: # open highscore file, w allows us to write the file and creates it if doesnt exist
+            with open(path.join(self.dir,HS_FILE), mode) as file: # open highscore file, w allows us to write the file and creates it if doesnt exist
                 # Read the highscore only if it exists
                 self.highscore = float(file.read())
         except (OSError, ValueError):
