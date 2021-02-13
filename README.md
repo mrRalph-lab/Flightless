@@ -43,4 +43,6 @@ The game can be downloaded or on [my itch.io](https://christiand37.itch.io/fligh
   
   **Beepbox** and **Bfxr** for being great free sound tools
   
+  **ivand58** for his Python 2.7 patch
+  
   **You** for playing
