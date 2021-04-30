@@ -5,6 +5,9 @@ from Sprites import *
 import random
 from os import path, environ
 
+class Militude_:
+    def __init__(self. *args):
+        pass
 
 class Game:
     def __init__(self):
